@@ -1,6 +1,7 @@
 "use client";
 import UserNavbar from "@/app/_component/UserNavbar/page";
 
+
 export default function UserLayout({
   children,
 }: {

@@ -12,9 +12,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
 
-  //http://localhost:8000/api/admin/login",
+  
   const handleLogin = async () => {
-    const res = await fetch("https://abc123.ngrok-free.app/api/admin/login", {
+    const res = await fetch("http://localhost:8000/api/admin/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -47,7 +47,7 @@ console.log("res",res)
   
 
    return (
-     <div className="min-h-screen flex   items-center justify-center">
+     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white rounded-2xl  flex flex-wrap w-[1200px]  overflow-hidden">
 
         {/* LEFT IMAGE SECTION */}

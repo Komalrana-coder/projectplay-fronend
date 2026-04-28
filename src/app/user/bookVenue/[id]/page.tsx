@@ -141,6 +141,23 @@ const [playerModal, setPlayerModal] = useState(false);
     }
   };
 console.log("players",players)
+
+
+const handlePayment = async () => {
+  const res = await fetch("http://localhost:8000/api/create-checkout-session", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      bookingId: "booking._id", 
+    }),
+  });
+
+  const data = await res.json();
+  window.location.href = data.url;
+};
+
   return (
     <div className="bg-white min-h-screen p-4 grid grid-cols-12 gap-4">
       {/* LEFT SIDE */}
@@ -335,7 +352,8 @@ console.log("players",players)
 {/*Continue */}
         <button
           className="w-full bg-blue-700 text-white py-3 rounded-lg"
-          onClick={handleAddBooking}
+          // onClick={handleAddBooking}
+          onClick={handlePayment}
         >
           Continue
         </button>
