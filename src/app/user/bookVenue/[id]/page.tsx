@@ -132,10 +132,8 @@ export default function BookingPage() {
 
       console.log("BOOKING ID:", bookingId);
 
-      
-
       const filledPlayers = players.filter(
-        (p: any) => p.name && p.name.trim() !== "",
+        (p: any) => p && p.name && p.name.trim() !== "",
       );
       const dynamicAmount = filledPlayers.length * 300;
 
@@ -156,7 +154,7 @@ export default function BookingPage() {
       const paymentData = await paymentRes.json();
 
       if (paymentRes.ok) {
-        window.location.href = paymentData.url; // redirect to Stripe
+        window.location.href = paymentData.url;
       } else {
         toast.error(paymentData.message || "Payment failed");
       }
@@ -197,16 +195,36 @@ export default function BookingPage() {
             </button>
           </div>
         </div>
-
+        
         {/* Date */}
         <div className="bg-gray-100 rounded-2xl p-4">
           <h2 className="text-gray-700 font-semibold mb-3">Dates</h2>
 
           <div className="flex gap-2 overflow-x-auto">
             {dates.map((day) => {
-              const fullDate = new Date(year, month, day).toLocaleDateString(
-                "en-CA",
-              );
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+
+              let tempYear = year;
+              let tempMonth = month;
+
+              let selectedDate = new Date(tempYear, tempMonth, day);
+              selectedDate.setHours(0, 0, 0, 0);
+
+              // 🔥 If selected date is in past → move to next month
+              if (selectedDate < today) {
+                tempMonth += 1;
+
+                if (tempMonth > 11) {
+                  tempMonth = 0;
+                  tempYear += 1;
+                }
+
+                selectedDate = new Date(tempYear, tempMonth, day);
+              }
+
+              const fullDate = selectedDate.toLocaleDateString("en-CA");
+
 
               return (
                 <button
@@ -216,7 +234,11 @@ export default function BookingPage() {
                     date === fullDate ? "bg-blue-900 text-white" : "bg-white"
                   }`}
                 >
-                  <div className="text-xs">{getDayName(day)}</div>
+                  <div className="text-xs">
+                    {selectedDate.toLocaleDateString("en-US", {
+                      weekday: "short",
+                    })}
+                  </div>
                   <div className="font-semibold">{day}</div>
                 </button>
               );
@@ -260,7 +282,7 @@ export default function BookingPage() {
           <div className="grid md:grid-cols-2 gap-6">
             {[1, 2].map((court) => (
               <div key={court} className="bg-gray-100 rounded-2xl p-5">
-                <h3 className="text-gray-700 font-semibold mb-4">Morning</h3>
+                <h3 className="text-gray-700 font-semibold mb-4">Time</h3>
 
                 <div className="grid grid-cols-3 gap-3">
                   {timeSlots.map((time) => {
@@ -277,7 +299,6 @@ export default function BookingPage() {
                         }`}
                       >
                         <div className="font-medium">{time}</div>
-                        <div className="text-xs">₹ 400</div>
                       </button>
                     );
                   })}
@@ -368,12 +389,12 @@ export default function BookingPage() {
       {/* RIGHT SIDE */}
       <div className="col-span-4">
         <div className="bg-white p-4 rounded-xl shadow border">
-          <h2 className="font-semibold text-lg">Name of the court</h2>
+          {/* <h2 className="font-semibold text-lg">Name of the court</h2>
           <p className="text-sm text-gray-500 mb-3">Flexi Tower Mohali</p>
 
           <p className="text-sm text-gray-500 mb-3">
             Court information goes here. Clean and simple description.
-          </p>
+          </p> */}
 
           <div className="text-sm mb-3">
             <p className="font-medium">Opening Hours</p>

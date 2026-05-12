@@ -85,7 +85,7 @@ export default function BookingModal({ onSave, onClose }: Props) {
           onClick={handleSubmit}
           className="bg-blue-600 text-white w-full py-2 rounded"
         >
-          Book Now
+          Add
         </button>
       </div>
     </div>

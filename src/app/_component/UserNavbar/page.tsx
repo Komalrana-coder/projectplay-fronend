@@ -1,3 +1,4 @@
+import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,9 +12,8 @@ export default function UserNavbar() {
   router.push("/"); 
 };
   return (
-    <div className="w-full bg-gray-100 ">
-      <nav className="w-full  px-3 py-2 flex   items-center justify-between">
-
+    
+      <nav className="w-full sticky top-0 z-50 bg-white  px-3 py-2 flex   items-center justify-between">
         {/* Logo */}
         <div className="flex items-center ">
           
@@ -31,9 +31,7 @@ export default function UserNavbar() {
         <div className="flex-1 flex justify-center ">
           <div className="flex items-center gap-2 shadow bg-white px-3 py-1 rounded-full text-sm text-gray-600">
 
-            <Link href="/user/home" className="px-4 py-1 rounded-full hover:bg-gray-200">
-              home
-            </Link>
+            
             <Link href="/user/openMatches" className="px-4 py-1 rounded-full hover:bg-gray-200">
              Matches
             </Link>
@@ -53,11 +51,15 @@ export default function UserNavbar() {
 
         
         <div className="w-10"></div>
-         <button className="p-1 px-2 bg-blue-600 rounded-xl"
-         onClick={handleLogout}
-         >logout</button>
+           <button
+  onClick={handleLogout}
+  className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded-lg"
+>
+  <LogOut size={15} />
+  Logout
+</button>
       </nav>
      
-    </div>
+    
   );
 }

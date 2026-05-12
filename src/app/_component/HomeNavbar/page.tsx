@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
 
 export default function Navbar() {
     const router = useRouter();
@@ -11,7 +10,6 @@ export default function Navbar() {
     router.push("/"); }
   return (
    
-         
       <nav className="w-full sticky top-0 z-50 bg-white  px-3 py-2 flex   items-center justify-between">
 
         {/* Logo */}
@@ -31,41 +29,27 @@ export default function Navbar() {
         <div className="flex-1 flex justify-center ">
           <div className="flex items-center gap-2 shadow bg-white px-3 py-1 rounded-full text-sm text-gray-600">
 
-            <Link href="/authority/dashboard" className="px-4 py-1 rounded-full hover:bg-gray-200">
-              Dashboard
+            <Link href="/home/features#features" className="px-4 py-1 rounded-full hover:bg-gray-200">
+             Features
             </Link>
 
-            <Link href="/authority/viewMatches" className="px-4 py-1 rounded-full hover:bg-gray-200">
-              Matches
+            <Link href="/home/features#howItWorks" className="px-4 py-1 rounded-full hover:bg-gray-200">
+              How It Works
+            </Link>
+             <Link href="/home/features#Faq" className="px-4 py-1 rounded-full hover:bg-gray-200">
+              FAQ
             </Link>
 
-           
-
-            <Link href="/authority/viewUsers" className="px-4 py-1 rounded-full hover:bg-gray-200">
-              Users
+            <Link href="/home/cancellation" className="px-4 py-1 rounded-full hover:bg-gray-200">
+             Cancellation&Refund
             </Link>
-
-            <Link href="/authority/ViewVenue" className="px-4 py-1 rounded-full hover:bg-gray-200 ">
-              Venues
-            </Link>
-
-            <Link href="/authority/viewEmployees" className="px-4 py-1 rounded-full hover:bg-gray-200">
-              Employees
-            </Link>
-
           </div>
         </div>
 
-       
+        {/* Right spacer (keeps center aligned) */}
         <div className="w-10"></div>
-        <button
-  onClick={handleLogout}
-  className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded-lg"
->
-  <LogOut size={15} />
-  Logout
-</button>
+        
       </nav>
-
+    
   );
 }

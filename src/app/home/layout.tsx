@@ -1,7 +1,8 @@
 "use client";
-import Navbar from "../_component/Navbar/page";
 
-export default function AuthorityLayout({
+import Navbar from "../_component/HomeNavbar/page";
+
+export default function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ export default function AuthorityLayout({
     <div className="flex min-h-screen ">
       {/* Main Content */}
       <div className="flex-1">
-        <Navbar /> 
+        <Navbar/>
         <div className="p-4">
           {children} 
         </div>

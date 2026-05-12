@@ -100,8 +100,11 @@ console.log("res",res)
           <div className="grid md:grid-cols-2 md:gap-6">
            {/* register */}
           <div className="text-left mb-6">
-            <Link href="/user/register" className="text-sm text-blue-500 hover:underline">
+            <Link href="/register" className="text-sm text-blue-500 hover:underline">
               Register User
+            </Link>
+              <Link href="/home/features" className="text-sm text-blue-500 hover:underline">
+              home
             </Link>
           </div>
 

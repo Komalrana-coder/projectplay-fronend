@@ -6,7 +6,7 @@ import BookingModal from "@/app/_component/playerModal/page";
 type Player = {
   name: string;
   email?: string;
-};
+} ;
 type Match = {
   _id: string;
   game: string;
@@ -22,6 +22,7 @@ type Match = {
   gameType: string;
   user?: {
     name: string;
+    image: string;
   };
   venue?: {
     name: string;
@@ -82,33 +83,106 @@ export default function matches() {
     return () => clearTimeout(delay);
   }, [search, page]);
 
+  const updatePlayersInDB = async () => {
+    try {
+      if (!selectedMatch?._id) {
+        alert("No match selected");
+        return;
+      }
+
+      const token = localStorage.getItem("token");
+
+      const updateRes = await fetch(
+        `http://localhost:8000/api/matches/updatePlayers/${selectedMatch._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            players: players.filter((p) => p && p.name),
+          }),
+        },
+      );
+
+      const updateData = await updateRes.json();
+
+      if (!updateRes.ok) {
+        console.error(updateData);
+        alert("Failed to update players");
+        return;
+      }
+
+      console.log("Players updated");
+
+      const filledPlayers = players.filter(
+        (p) => p && p.name && p.name.trim() !== "",
+      );
+
+      const dynamicAmount = filledPlayers.length * 300;
+
+      const paymentRes = await fetch(
+        "http://localhost:8000/api/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bookingId: selectedMatch._id,
+            amount: dynamicAmount,
+          }),
+        },
+      );
+
+      const paymentData = await paymentRes.json();
+
+      if (!paymentRes.ok) {
+        alert(paymentData.message || "Payment failed");
+        return;
+      }
+
+      window.location.href = paymentData.url;
+    } catch (error) {
+      console.error("ERROR:", error);
+      alert("Something went wrong");
+    }
+  };
+  useEffect(() => {
+    if (selectedMatch) {
+      setPlayers(selectedMatch.players || []);
+    }
+  }, [selectedMatch]);
+
+ 
   return (
-    <div className="min-h-screen w-full  bg-gray-100 p-4 md:p-6">
-      <h4 className="w-full flex text-xl md:text-2xl font-semibold">
+    <div className="min-h-screen w-full  bg-white  md:p-2">
+      <h4 className="w-full flex text-xl md:text-2xl font-semibold text-blue-900">
         Open Matches
       </h4>
       <div className=" flex flex-col  gap-3 mb-4">
         <div className="w-full flex item-center md:flex-row md:items-center gap-2">
           <div className="flex-1 gap-2 mt-2"></div>
           <div className="flex gap-2">
-            <button className="bg-gray-900 text-white text-sm rounded-full px-4 py-2">
+            {/* <button className="bg-gray-900 text-white text-sm rounded-full px-4 py-2">
               Game
             </button>
 
             <button className="bg-gray-900 text-white text-sm rounded-full px-4 py-2">
               Select a date
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
       <div className=" flex w-full  gap-6 transition-all duration-300">
         <div
-          className={`bg-gray-200 rounded-xl p-4 overflow-x-auto shadow transition-all duration-300 ${
+          className={`bg-gray-100 rounded-xl p-4 overflow-x-auto shadow transition-all duration-300 ${
             selectedMatch ? "w-2/3" : "w-full"
           }`}
         >
           <div className="mb-4 flex justify-between items-center">
-            <h4 className="text-xl font-semibold">Upcoming Matches</h4>
+            <h4 className="text-xl font-raleway text-blue-900">Upcoming Matches</h4>
             <input
               type="text"
               placeholder="Search"
@@ -121,7 +195,7 @@ export default function matches() {
             />
           </div>
 
-          <div className=" flex justify-between w-full text-sm font-semibold text-gray-600 ">
+          <div className=" flex justify-between w-full text-sm font-raleway text-gray-600 ">
             <table className="min-w-full bg-white rounded-xl overflow-hidden shadow">
               <thead className="bg-gray-200 text-gray-700 text-sm">
                 <tr>
@@ -134,15 +208,34 @@ export default function matches() {
                 </tr>
               </thead>
               <tbody className="text-sm">
+                
                 {matches.length > 0 ? (
+                  
                   matches.map((match) => (
+                 
+
                     <tr
                       key={match._id}
                       onClick={() => setSelectedMatch(match)}
-                      className="border-b hover:bg-gray-100 cursor-pointer"
+                      className="border-b hover:bg-blue-500 cursor-pointer"
                     >
                       <td className="px-4 py-2">
-                        {match.user?.name || "Unknown"}
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 relative rounded-full overflow-hidden bg-gray-300">
+                            
+                            {match.user?.image ? (
+                             <img src={`http://localhost:8000${match.user?.image}`} 
+                                className="w-8 h-8 rounded-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-xs font-bold">
+                                {match.user?.name?.charAt(0) || "U"}
+                              </div>
+                            )}
+                          </div>
+
+                          <span>{match.user?.name || "Unknown"}</span>
+                        </div>
                       </td>
 
                       <td className="px-4 py-2">
@@ -310,9 +403,9 @@ export default function matches() {
                             {player ? (
                               <>
                                 <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
-                                  {player.name.charAt(0)}
+                                  {player?.name?.charAt(0)}
                                 </div>
-                                <p className="text-xs mt-1">{player.name}</p>
+                                <p className="text-xs mt-1">{player?.name}</p>
                               </>
                             ) : (
                               <>
@@ -327,7 +420,7 @@ export default function matches() {
                                   </span>
                                 </div>
                                 <p className="text-sm text-gray-500">
-                                  {player?.name || "Available"}
+                                  Available
                                 </p>
                               </>
                             )}
@@ -375,10 +468,12 @@ export default function matches() {
                           onSave={(player) => {
                             setPlayers((prev) => {
                               const updated = [...prev];
-                              updated[selectedIndex] = player;
+                              updated[selectedIndex!] = player;
+
                               return updated;
                             });
-                            setOpenModal(false);
+
+                            setPlayerModal(false);
                           }}
                         />
                       )}
@@ -389,8 +484,19 @@ export default function matches() {
 
               {/* Button */}
               <button
-                onClick={() => setOpenModal(true)}
-                className="w-full bg-blue-900 text-white py-3 rounded-full font-medium hover:bg-blue-800 transition"
+                onClick={() => {
+                  if (!selectedMatch?._id) {
+                    alert("No match selected");
+                    return;
+                  }
+
+                  const filteredPlayers = players.filter(
+                    (p) => p && p.name?.trim(),
+                  );
+
+                  updatePlayersInDB();
+                }}
+                className="w-full bg-blue-900 text-white py-3 rounded-full"
               >
                 join game
               </button>

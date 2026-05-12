@@ -31,7 +31,7 @@ export default function Venue() {
     <div className="min-h-screen bg-white flex justify-center items-center py-1 px-2">
       <div className="w-full min-h-screen max-w-8xl bg-white  ">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-          <h1 className="text-2xl font-semibold text-gray-800">All Venues</h1>
+          <h1 className="text-2xl font-semibold text-blue-900">All Venues</h1>
 
           <div className="flex gap-3">
             <input
@@ -45,7 +45,7 @@ export default function Venue() {
 
             <button
               onClick={() => router.push("/authority/addVenue")}
-              className="bg-gray-900 text-white px-4 py-2 rounded-full"
+              className="bg-blue-600 text-white px-4 py-2 rounded-full"
             >
               + Add A New Venue
             </button>

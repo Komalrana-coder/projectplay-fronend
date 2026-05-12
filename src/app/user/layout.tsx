@@ -11,6 +11,7 @@ export default function UserLayout({
     <div className="flex min-h-screen ">
       {/* Main Content */}
       <div className="flex-1">
+         
         <UserNavbar/>
         <div className="p-4">
           {children} 
