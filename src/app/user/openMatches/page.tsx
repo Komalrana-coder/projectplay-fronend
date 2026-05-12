@@ -2,8 +2,11 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import PadelBookingModal from "@/app/_component/padelBookingModal/page";
-
+import BookingModal from "@/app/_component/playerModal/page";
+type Player = {
+  name: string;
+  email?: string;
+};
 type Match = {
   _id: string;
   game: string;
@@ -24,9 +27,8 @@ type Match = {
     name: string;
     address: string;
   };
-  players: {
-    name: string;
-  }[];
+  players: (Player | null)[];
+  status: string;
 };
 
 export default function matches() {
@@ -37,15 +39,22 @@ export default function matches() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [openModal, setOpenModal] = useState(false);
+
+  const [playerModal, setPlayerModal] = useState(false);
+  const [players, setPlayers] = useState<(Player | null)[]>([]);
+
+  const handleOpenModal = (index: number) => {
+    setSelectedIndex(index);
+    setPlayerModal(true);
+  };
 
   const fetchMatches = async () => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
         `http://localhost:8000/api/matches/getAllMatches?page=${page}&limit=5&search=${search}`,
-
 
         {
           headers: {
@@ -121,7 +130,7 @@ export default function matches() {
                   <th className="text-left px-4 py-2">Game</th>
                   <th className="text-left px-4 py-2">Venue</th>
                   <th className="text-left px-4 py-2">Date&Time</th>
-                  <th className="text-left px-4 py-2">Action</th>
+                  <th className="text-left px-4 py-2">Status</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
@@ -137,9 +146,21 @@ export default function matches() {
                       </td>
 
                       <td className="px-4 py-2">
-                        {match.players?.map((p: any) => (
-                          <span key={p.email}>{p.name}, </span>
-                        )) || "Unknown"}
+                        {match.players?.filter((p) => p?.name?.trim()).length} /
+                        4
+                        <span
+                          className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                            match.players?.filter((p) => p?.name?.trim())
+                              .length === 4
+                              ? " text-green-700"
+                              : " text-red-600"
+                          }`}
+                        >
+                          {match.players?.filter((p) => p?.name?.trim())
+                            .length === 4
+                            ? "Full"
+                            : "Open"}
+                        </span>
                       </td>
 
                       <td className="px-4 py-2">{match.game}</td>
@@ -151,9 +172,17 @@ export default function matches() {
                       <td className="px-4 py-2">{match.date}</td>
 
                       <td className="px-4 py-2">
-                        <button className="bg-blue-600 text-white px-3 py-1 rounded">
-                          completed
-                        </button>
+                        <span
+                          className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                            match.status === "completed"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-600"
+                          }`}
+                        >
+                          {match.status === "completed"
+                            ? "Completed"
+                            : "Pending"}
+                        </span>
                       </td>
                     </tr>
                   ))
@@ -216,44 +245,38 @@ export default function matches() {
             <div className="p-3 space-y-3">
               {/* Title + Duration */}
               <div className="flex justify-between items-center">
-                <h2 className="text-lg font-semibold">Padel Game</h2>
-                <span className="text-sm text-gray-600">120 Mins</span>
+                <h2 className="text-lg font-semibold"> {selectedMatch.game}</h2>
+                <span className="text-sm text-gray-600">
+                  {" "}
+                  {selectedMatch.duration} mins
+                </span>
               </div>
 
               {/* Location */}
-              <p className="text-sm text-gray-600">Sector 24, Chandigarh</p>
+              <p className="text-sm text-gray-600">
+                {selectedMatch.venue?.address}
+              </p>
 
               {/* Date + Time */}
               <div className="flex justify-between text-sm text-gray-500">
-                <span> 17 Sept 2024</span>
-                <span> 09:00 AM</span>
+                <span>{selectedMatch.date}</span>
+                <span> {selectedMatch.timeSlot?.join(", ")}</span>
               </div>
 
               {/* Created By */}
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Created By</span>
                 <div className="flex items-center gap-2">
-                  <Image
-                    src="/match1.jpg"
-                    alt="match"
-                    width={28}
-                    height={28}
-                    className="rounded-full"
-                  />
-                  <span className="text-sm">Alex Parker</span>
+                  <span className="text-sm">
+                    {selectedMatch.user?.name || "Unknown"}
+                  </span>
                 </div>
               </div>
 
               {/* Players */}
               <div className="flex justify-between text-sm text-gray-600">
                 <span>Players</span>
-                <span>3</span>
-              </div>
-
-              {/* Equipment */}
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>Equipment Rented</span>
-                <span>None</span>
+                <span>{selectedMatch.players.length}</span>
               </div>
 
               {/* Players Section */}
@@ -262,60 +285,106 @@ export default function matches() {
                   Players in the game
                 </p>
 
-                <div className="flex justify-between items-center">
-                  {/* Team 1 */}
-                  <div className="flex gap-2">
-                    <div className="text-center">
-                      <Image
-                        src="/p1.jpg"
-                        alt="player"
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                      <p className="text-xs mt-1">Wren Lee</p>
-                    </div>
+                {(() => {
+                  const playersData = players.some((p) => p !== null)
+                    ? players
+                    : selectedMatch?.players || [];
 
-                    <div className="text-center">
-                      <Image
-                        src="/p2.jpg"
-                        alt="player"
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                      <p className="text-xs mt-1">Emerson White</p>
-                    </div>
-                  </div>
+                  const totalSlots = 4;
 
-                  {/* VS */}
-                  <span className="text-xs text-gray-500">VS</span>
+                  const slots = Array.from(
+                    { length: 4 },
+                    (_, i) => playersData[i] || null,
+                  );
 
-                  {/* Team 2 */}
-                  <div className="flex gap-2">
-                    <div className="text-center">
-                      <Image
-                        src="/p3.jpg"
-                        alt="player"
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                      <p className="text-xs mt-1">Taylor Davis</p>
-                    </div>
+                  // split into 2 teams
+                  const team1: (Player | null)[] = [slots[0], slots[2]];
+                  const team2: (Player | null)[] = [slots[1], slots[3]];
 
-                    <div className="text-center">
-                      <Image
-                        src="/p4.jpg"
-                        alt="player"
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                      <p className="text-xs mt-1">Bailey Allen</p>
+                  return (
+                    <div className="flex justify-between items-center">
+                      {/* Team 1 */}
+                      <div className="flex gap-2">
+                        {team1.map((player: Player | null, index) => (
+                          <div key={index} className="text-center">
+                            {player ? (
+                              <>
+                                <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
+                                  {player.name.charAt(0)}
+                                </div>
+                                <p className="text-xs mt-1">{player.name}</p>
+                              </>
+                            ) : (
+                              <>
+                                <div
+                                  onClick={() =>
+                                    handleOpenModal(index === 0 ? 0 : 2)
+                                  }
+                                  className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-300"
+                                >
+                                  <span className="text-lg font-bold text-gray-600">
+                                    +
+                                  </span>
+                                </div>
+                                <p className="text-sm text-gray-500">
+                                  {player?.name || "Available"}
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* VS */}
+                      <span className="text-xs text-gray-500">VS</span>
+
+                      {/* Team 2 */}
+                      <div className="flex gap-2">
+                        {team2.map((player, index) => (
+                          <div key={index} className="text-center">
+                            {player ? (
+                              <>
+                                <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
+                                  {player.name.charAt(0)}
+                                </div>
+                                <p className="text-xs mt-1">{player.name}</p>
+                              </>
+                            ) : (
+                              <>
+                                <div
+                                  onClick={() =>
+                                    handleOpenModal(index === 0 ? 1 : 3)
+                                  }
+                                  className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-300"
+                                >
+                                  <span className="text-lg font-bold text-gray-600">
+                                    +
+                                  </span>
+                                </div>
+                                <p className="text-xs mt-1 text-gray-500">
+                                  Available
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      {playerModal && selectedIndex !== null && (
+                        <BookingModal
+                          onClose={() => setPlayerModal(false)}
+                          onSave={(player) => {
+                            setPlayers((prev) => {
+                              const updated = [...prev];
+                              updated[selectedIndex] = player;
+                              return updated;
+                            });
+                            setOpenModal(false);
+                          }}
+                        />
+                      )}
                     </div>
-                  </div>
-                </div>
+                  );
+                })()}
               </div>
 
               {/* Button */}
@@ -325,9 +394,6 @@ export default function matches() {
               >
                 join game
               </button>
-              {openModal && (
-                <PadelBookingModal onClose={() => setOpenModal(false)} />
-              )}
             </div>
           </div>
         )}

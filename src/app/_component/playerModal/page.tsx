@@ -42,14 +42,14 @@ export default function BookingModal({ onSave, onClose }: Props) {
   };
 
   const handleSubmit = async () => {
-  if (!name || !email) return;
+  if (!name ) return;
 
   const res = await fetch("http://localhost:8000/api/matches/checkUser", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, email }),
+    body: JSON.stringify({ name}),
   });
 
   const data = await res.json();
@@ -65,15 +65,6 @@ export default function BookingModal({ onSave, onClose }: Props) {
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-xl w-80">
         <h2 className="text-lg font-semibold mb-4">Enter Details</h2>
-
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full border p-2 mb-3"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onBlur={() => checkUser(email)}
-        />
 
         <input
           type="text"

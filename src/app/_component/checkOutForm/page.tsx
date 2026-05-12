@@ -11,7 +11,7 @@ export default function CheckoutForm() {
 
     if (!stripe || !elements) return;
 
-    // Call your backend
+
     const res = await fetch("http://localhost:8000/api/create-payment", {
       method: "POST",
       headers: {
@@ -31,7 +31,7 @@ export default function CheckoutForm() {
     if (result.error) {
       alert(result.error.message);
     } else {
-      alert("Payment Successful ✅");
+      alert("Payment Successful");
     }
   };
 

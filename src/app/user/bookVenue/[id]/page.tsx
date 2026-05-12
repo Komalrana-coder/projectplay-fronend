@@ -12,7 +12,6 @@ type Court = {
 };
 type Player = {
   name: string;
-  email:string
 };
 
 export default function BookingPage() {
@@ -27,9 +26,14 @@ export default function BookingPage() {
     [key: string]: number;
   }>({});
   const [timeSlot, setTimeSlot] = useState<string[]>([]);
-  const [players, setPlayers] = useState<(Player | null)[]>([null, null, null, null]);
-const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-const [playerModal, setPlayerModal] = useState(false);
+  const [players, setPlayers] = useState<(Player | null)[]>([
+    null,
+    null,
+    null,
+    null,
+  ]);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [playerModal, setPlayerModal] = useState(false);
 
   const toggleSlot = (time: string) => {
     setTimeSlot((prev) =>
@@ -44,9 +48,9 @@ const [playerModal, setPlayerModal] = useState(false);
   };
 
   const handleOpenModal = (index: number) => {
-  setSelectedIndex(index);
-  setPlayerModal(true);
-};
+    setSelectedIndex(index);
+    setPlayerModal(true);
+  };
   const params = useParams();
   const id = params?.id as string;
 
@@ -75,7 +79,6 @@ const [playerModal, setPlayerModal] = useState(false);
   const courtId = Object.keys(selected)[0];
   const duration = selected[courtId];
 
-
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
@@ -90,73 +93,78 @@ const [playerModal, setPlayerModal] = useState(false);
 
   const timeSlots = ["06:00", "07:00", "08:00", "09:00", "10:00", "11:00"];
 
-  // const handleAddPlayer = (newPlayer: any) => {
-  //   setPlayers((prev) => [...prev, newPlayer]);
-  // };
+  const handleBookingAndPayment = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-  const handleAddBooking = async () => {
-    const token = localStorage.getItem("token");
-    console.log("TOKEN:", token);
-    const res = await fetch("http://localhost:8000/api/matches/createBooking", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      const bookingRes = await fetch(
+        "http://localhost:8000/api/matches/createBooking",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            game,
+            timeSlot,
+            gameType,
+            date,
+            courtId,
+            duration,
+            players: players.filter(Boolean),
+          }),
+        },
+      );
+
+      const bookingData = await bookingRes.json();
+
+      console.log("FULL RESPONSE:", bookingData);
+
+      if (!bookingRes.ok) {
+        toast.error(bookingData.message || "Booking failed");
+        return;
+      }
+
+      toast.success("Booking created");
+
+      const bookingId = bookingData?.booking?._id;
+
+      console.log("BOOKING ID:", bookingId);
+
       
-      body: JSON.stringify({
-        game,
-        timeSlot,
-        gameType,
-        date,
-        courtId,
-        duration,
-        players: players.filter(Boolean),
-      }),
-    });
-    const data = await res.json();
 
-  
-  const playerIds = players
-    .filter((p) => p !== null)
- 
+      const filledPlayers = players.filter(
+        (p: any) => p.name && p.name.trim() !== "",
+      );
+      const dynamicAmount = filledPlayers.length * 300;
 
-    console.log("ERROR RESPONSE:", data);
-    console.log("FINAL DATA:", {
-      game,
-      gameType,
-      date,
-      timeSlot,
-      selected,
-      courtId,
-      duration,
-      players: players.filter(Boolean),
-    });
+      const paymentRes = await fetch(
+        "http://localhost:8000/api/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bookingId: bookingId,
+            amount: dynamicAmount,
+          }),
+        },
+      );
 
-    console.log("res", res);
-    if (res.ok){
-      toast.success("Booking done");
-    } else {
-      toast.error(data.message || JSON.stringify(data));
+      const paymentData = await paymentRes.json();
+
+      if (paymentRes.ok) {
+        window.location.href = paymentData.url; // redirect to Stripe
+      } else {
+        toast.error(paymentData.message || "Payment failed");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
     }
   };
-console.log("players",players)
-
-
-const handlePayment = async () => {
-  const res = await fetch("http://localhost:8000/api/create-checkout-session", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      bookingId: "booking._id", 
-    }),
-  });
-
-  const data = await res.json();
-  window.location.href = data.url;
-};
 
   return (
     <div className="bg-white min-h-screen p-4 grid grid-cols-12 gap-4">
@@ -309,51 +317,49 @@ const handlePayment = async () => {
             </div>
 
             {/* Players Row */}
-          <div className="flex items-center justify-between">
-  {players.map((player, index) => (
-    <div key={index} className="flex flex-col items-center">
-      
-      <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gray-100 border text-lg font-semibold mb-2">
-        {player ? (
-          player.name.charAt(0)
-        ) : (
-          <button onClick={() => handleOpenModal(index)}>+</button>
-        )}
-      </div>
+            <div className="flex items-center justify-between">
+              {players.map((player, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gray-100 border text-lg font-semibold mb-2">
+                    {player ? (
+                      player.name.charAt(0)
+                    ) : (
+                      <button onClick={() => handleOpenModal(index)}>+</button>
+                    )}
+                  </div>
 
-      <p className="text-sm text-gray-500">
-        {player?.name || "Available"}
-      </p>
+                  <p className="text-sm text-gray-500">
+                    {player?.name || "Available"}
+                  </p>
+                </div>
+              ))}
 
-    </div>
-  ))}
+              {/* Modal */}
+              {playerModal && selectedIndex !== null && (
+                <BookingModal
+                  onClose={() => setPlayerModal(false)}
+                  onSave={(player) => {
+                    if (selectedIndex === null) return;
 
-  {/* Modal */}
-  {playerModal && selectedIndex !== null && (
-    <BookingModal
-      onClose={() => setPlayerModal(false)}
-   onSave={(player) => {
-  if (selectedIndex === null) return;
+                    setPlayers((prev) => {
+                      const updated = [...prev];
+                      updated[selectedIndex!] = player;
+                      return updated;
+                    });
 
-  setPlayers((prev) => {
-    const updated = [...prev];
-    updated[selectedIndex!] = player; 
-    return updated;
-  });
-
-  setPlayerModal(false);
-}}
-    />
-  )}
-</div>
+                    setPlayerModal(false);
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
 
-{/*Continue */}
+        {/*Continue */}
         <button
           className="w-full bg-blue-700 text-white py-3 rounded-lg"
           // onClick={handleAddBooking}
-          onClick={handlePayment}
+          onClick={handleBookingAndPayment}
         >
           Continue
         </button>
