@@ -48,7 +48,7 @@ export default function matches() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:8000/api/matches/getAllMatches?page=${page}&limit=5&search=${search}`,
+        `NEXT_PUBLIC_BACKEND_URL/api/matches/getAllMatches?page=${page}&limit=5&search=${search}`,
 
         {
           headers: {

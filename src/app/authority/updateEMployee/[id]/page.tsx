@@ -44,7 +44,7 @@ export default function singleEmployee() {
       }
 
       const res = await fetch(
-        `http://localhost:8000/api/admin/updateEmployee/${id}`,
+        `NEXT_PUBLIC_BACKEND_URL/api/admin/updateEmployee/${id}`,
         {
           method: "PUT",
           body: formData,

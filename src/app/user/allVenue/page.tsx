@@ -29,7 +29,7 @@ export default function Venue() {
 
   const fetchVenue = async () => {
     const res = await fetch(
-      `http://localhost:8000/api/venue/getVenue?page=${page}&limit=10&search=${search}`,
+      `NEXT_PUBLIC_BACKEND_URL/api/venue/getVenue?page=${page}&limit=10&search=${search}`,
     );
     const data = await res.json();
     setVenue(data.venue || []);

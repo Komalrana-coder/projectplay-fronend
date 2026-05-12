@@ -44,7 +44,7 @@ const [todayBookings, setTodayBookings] = useState<any[]>([]);
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      "http://localhost:8000/api/matches/getAllMatches",
+      `NEXT_PUBLIC_BACKEND_URL/api/matches/getAllMatches`,
       {
         headers: {
           "Content-Type": "application/json",

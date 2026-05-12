@@ -106,7 +106,7 @@ export default function addVenue() {
       formData.append("image", selectedFile); 
     }
 
-    const res = await fetch("http://localhost:8000/api/venue/addVenue", {
+    const res = await fetch(`NEXT_PUBLIC_BACKEND_URL/api/venue/addVenue`, {
       method: "POST",
       body: formData, 
     });

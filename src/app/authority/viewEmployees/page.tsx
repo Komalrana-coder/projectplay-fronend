@@ -36,7 +36,7 @@ export default function Employees() {
 
   const fetchEmployees = async () => {
     const res = await fetch(
-      `http://localhost:8000/api/admin/getEmployee?page=${page}&limit=10&search=${search}`,
+      `NEXT_PUBLIC_BACKEND_URL/api/admin/getEmployee?page=${page}&limit=10&search=${search}`,
     );
     const data = await res.json();
     

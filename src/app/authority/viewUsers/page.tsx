@@ -21,7 +21,7 @@ export default function viewUsers() {
 
   const fetchUsers = async () => {
     const res = await fetch(
-      `http://localhost:8000/api/admin/getUsers?page=${page}&limit=10&search=${encodeURIComponent(search || "")}`,
+      `NEXT_PUBLIC_BACKEND_URL/api/admin/getUsers?page=${page}&limit=10&search=${encodeURIComponent(search || "")}`,
     );
 
     const data = await res.json();

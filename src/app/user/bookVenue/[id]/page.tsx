@@ -62,7 +62,7 @@ export default function BookingPage() {
     const fetchCourt = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/api/venue/getSingleVenue/${id}`,
+          `NEXT_PUBLIC_BACKEND_URL/api/venue/getSingleVenue/${id}`,
         );
         const data = await res.json();
 

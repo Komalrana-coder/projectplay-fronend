@@ -20,7 +20,7 @@ export default function BookingModal({ onSave, onClose }: Props) {
     if (!email) return;
 
     const res = await fetch(
-      "http://localhost:8000/api/matches/checkUser",
+      `NEXT_PUBLIC_BACKEND_URL/api/matches/checkUser`,
       {
         method: "POST",
         headers: {

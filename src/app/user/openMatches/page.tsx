@@ -123,7 +123,7 @@ export default function matches() {
       const dynamicAmount = filledPlayers.length * 300;
 
       const paymentRes = await fetch(
-        "http://localhost:8000/api/create-checkout-session",
+        `NEXT_PUBLIC_BACKEND_URL/api/create-checkout-session`,
         {
           method: "POST",
           headers: {
