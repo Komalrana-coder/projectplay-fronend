@@ -168,7 +168,7 @@ export default function SingleUser() {
   const handleRemove = async (id: any) => {
     try {
       const res = await fetch(
-        `http://localhost:8000/api/venue/removeVenueEmp/${venue?._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/venue/removeVenueEmp/${venue?._id}`,
         {
           method: "PUT",
           headers: {
@@ -209,7 +209,7 @@ export default function SingleUser() {
     }
 
     const res = await fetch(
-      `http://localhost:8000/api/venue/updateVenue/${id}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/venue/updateVenue/${id}`,
       {
         method: "PUT",
         body: formData, 

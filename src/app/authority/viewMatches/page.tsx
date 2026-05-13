@@ -193,7 +193,7 @@ export default function matches() {
                           <div className="w-8 h-8 relative rounded-full overflow-hidden bg-gray-300">
                             {match.user?.image ? (
                               <img
-                                src={`http://localhost:8000${match.user?.image}`}
+                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${match.user?.image}`}
                                 className="w-8 h-8 rounded-full object-cover"
                               />
                             ) : (

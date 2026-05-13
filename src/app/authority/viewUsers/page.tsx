@@ -96,7 +96,7 @@ export default function viewUsers() {
 
               {user?.image ? (
                 <img
-                  src={`http://localhost:8000${user?.image}`}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${user?.image}`}
                   className="w-8 h-8 rounded-full object-cover"
                   alt="user"
                 />
@@ -172,7 +172,7 @@ export default function viewUsers() {
               <div className="flex items-center gap-4">
                  {selectedUsers?.image ? (
                 <img
-                  src={`http://localhost:8000${selectedUsers?.image}`}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${selectedUsers?.image}`}
                   className="w-20 h-20 rounded-full object-cover"
                   alt="user"
                 />

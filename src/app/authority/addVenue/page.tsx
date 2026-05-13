@@ -132,7 +132,7 @@ export default function addVenue() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/admin/getEmployee")
+    fetch("${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/getEmployee")
       .then((res) => res.json())
 
       .then((data: any) => {
