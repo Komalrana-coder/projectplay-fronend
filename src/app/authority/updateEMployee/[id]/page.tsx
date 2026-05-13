@@ -22,7 +22,7 @@ export default function singleEmployee() {
   const [image, setImage] = useState<File | null>(null);
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/admin/getSingleEmployee/${id}`)
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/getSingleEmployee/${id}`)
         .then((res) => res.json())
         .then((data) => setEmployee(data));
     }
@@ -76,7 +76,7 @@ export default function singleEmployee() {
                 image
                   ? URL.createObjectURL(image)
                   : employee?.image
-                    ? `http://localhost:8000${employee.image}`
+                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${employee.image}`
                     : "/profile.jpg"
               }
               alt="profile"

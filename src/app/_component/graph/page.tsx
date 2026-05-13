@@ -63,7 +63,7 @@ export default function StatsChart() {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch(`NEXT_PUBLIC_BACKEND_URL/api/matches/monthlyDailyStats`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/matches/monthlyDailyStats`)
       .then((res) => res.json())
       .then((res) => {
         setData(res);

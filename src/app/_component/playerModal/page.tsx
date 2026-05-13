@@ -20,7 +20,7 @@ export default function BookingModal({ onSave, onClose }: Props) {
     if (!email) return;
 
     const res = await fetch(
-      `NEXT_PUBLIC_BACKEND_URL/api/matches/checkUser`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/matches/checkUser`,
       {
         method: "POST",
         headers: {
@@ -44,7 +44,7 @@ export default function BookingModal({ onSave, onClose }: Props) {
   const handleSubmit = async () => {
   if (!name ) return;
 
-  const res = await fetch("http://localhost:8000/api/matches/checkUser", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/matches/checkUser`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

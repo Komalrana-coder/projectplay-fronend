@@ -12,7 +12,7 @@ export default function CheckoutForm() {
     if (!stripe || !elements) return;
 
 
-    const res = await fetch(`NEXT_PUBLIC_BACKEND_URL/api/create-payment`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create-payment`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

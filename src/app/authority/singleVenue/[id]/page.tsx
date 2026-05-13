@@ -265,7 +265,7 @@ console.log("image:", venue?.image);
                         src={
                           selectedFile
                             ? URL.createObjectURL(selectedFile)
-                            : `http://localhost:8000${venue.image.startsWith('/') ? '' : '/'}${venue.image}`
+                            : `${process.env.NEXT_PUBLIC_BACKEND_URL}${venue.image.startsWith('/') ? '' : '/'}${venue.image}`
                         }
                         alt="venue"
                         fill
