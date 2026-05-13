@@ -28,7 +28,7 @@ export default function register() {
       formData.append("image", image);
     }
 
-    const res = await fetch("http://localhost:8000/api/user/register", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/register`, {
       method: "POST",
       body: formData,
     });

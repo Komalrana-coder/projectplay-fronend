@@ -11,7 +11,7 @@ const router = useRouter();
   const [newPassword,setNewPassword]= useState("");
 
   const handleChangePassword = async () => {
-    const res = await fetch("http://localhost:8000/api/auth/changePassword", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/changePassword`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

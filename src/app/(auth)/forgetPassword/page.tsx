@@ -11,7 +11,7 @@ const router = useRouter();
 
   const handleSubmit = async () => {
          try {
-      const res = await fetch("http://localhost:8000/api/auth/forgetPassword", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/forgetPassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

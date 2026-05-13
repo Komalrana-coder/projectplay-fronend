@@ -16,7 +16,7 @@ export default function ResetPassword() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:8000/api/auth/resetPassword", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/resetPassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
