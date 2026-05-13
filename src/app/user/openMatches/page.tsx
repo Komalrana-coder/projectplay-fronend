@@ -55,7 +55,7 @@ export default function matches() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:8000/api/matches/getAllMatches?page=${page}&limit=5&search=${search}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/matches/getAllMatches?page=${page}&limit=5&search=${search}`,
 
         {
           headers: {
@@ -93,7 +93,7 @@ export default function matches() {
       const token = localStorage.getItem("token");
 
       const updateRes = await fetch(
-        `http://localhost:8000/api/matches/updatePlayers/${selectedMatch._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/updatePlayers/${selectedMatch._id}`,
         {
           method: "PUT",
           headers: {
