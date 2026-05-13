@@ -96,7 +96,7 @@ export default function viewUsers() {
 
               {user?.image ? (
                 <img
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${user?.image}`}
+                  src={user?.image}
                   className="w-8 h-8 rounded-full object-cover"
                   alt="user"
                 />
