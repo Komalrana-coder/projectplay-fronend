@@ -126,7 +126,7 @@ export default function SingleUser() {
   };
 
   useEffect(() => {
-    fetch(`NEXT_PUBLIC_BACKEND_URL/api/admin/getEmployee`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/getEmployee`)
       .then((res) => res.json())
 
       .then((data: any) => {

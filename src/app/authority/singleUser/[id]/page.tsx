@@ -10,7 +10,7 @@ export default function singleUser(){
   const [user, setUser] = useState<any>(null);
   useEffect(() => {
     if (id) {         
-      fetch(`NEXT_PUBLIC_BACKEND_URL/api/admin/getSingleUser/${id}`)
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/getSingleUser/${id}`)
         .then((res) => res.json())
         .then((data) =>setUser(data));
     }

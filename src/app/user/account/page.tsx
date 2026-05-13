@@ -66,7 +66,7 @@ export default function ProfilePage() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `NEXT_PUBLIC_BACKEND_URL/api/matches/getMyBooking`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/matches/getMyBooking`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -28,7 +28,7 @@ export default function AddEmployee() {
         formData.append("image", selectedFile);
       }
 
-      const res = await fetch(`NEXT_PUBLIC_BACKEND_URL/api/admin/addEmployee`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/addEmployee`, {
         method: "POST",
         body: formData,
       });

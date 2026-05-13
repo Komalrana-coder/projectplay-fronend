@@ -14,7 +14,7 @@ export default function Venue() {
 
   const fetchVenue = async () => {
     const res = await fetch(
-      `NEXT_PUBLIC_BACKEND_URL/api/venue/getVenue?page=${page}&limit=10&search=${search}`,
+     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/venue/getVenue?page=${page}&limit=10&search=${search}`,
     );
     const data = await res.json();
     setVenue(data.venue || []);
