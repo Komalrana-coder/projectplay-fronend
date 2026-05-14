@@ -76,8 +76,7 @@ export default function singleEmployee() {
                 image
                   ? URL.createObjectURL(image)
                   : employee?.image
-                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${employee.image}`
-                    : "/profile.jpg"
+                    || "/profile.jpg"
               }
               alt="profile"
               className="w-full h-52 object-cover rounded-xl"

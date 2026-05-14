@@ -63,7 +63,7 @@ export default function Venue() {
               <div className="relative w-full h-32">
                 <Image
                
-                  src={`http://localhost:8000${venue.image.startsWith('/') ? '' : '/'}${venue.image}`}
+                  src={venue.image}
                   alt="venue"
                   fill
                   className="rounded-t-xl object-cover"

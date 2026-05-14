@@ -39,7 +39,7 @@ export default function AddEmployee() {
 
       if (res.ok) {
         toast.success("Employee Added");
-        router.push("/");
+        // router.push("/viewEmployee");
       } else {
         toast.error(data.message || "failed");
       }

@@ -121,7 +121,7 @@ export default function Employees() {
 
               {emp?.image ? (
                 <img
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${emp?.image}`}
+                  src={emp?.image}
                   className="w-8 h-8 rounded-full object-cover"
                   alt="user"
                 />
@@ -193,7 +193,7 @@ export default function Employees() {
           <div className="w-1/3 bg-gray-100 font-Raleway  p-4 transition-all duration-300">
             <div className="w-full flex flex-col  rounded-xl  px-3">
               <img
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${selectedEmployee.image}`}
+                src={selectedEmployee.image}
                 alt="employee"
                 className="w-full rounded"
               />

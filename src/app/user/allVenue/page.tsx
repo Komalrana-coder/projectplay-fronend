@@ -48,7 +48,7 @@ const fetchMyBooking = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:8000/api/matches/getMyBooking", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/matches/getMyBooking`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -98,7 +98,7 @@ useEffect(() => {
               <div className="relative w-full h-32">
                 <Image
                
-                  src={`http://localhost:8000${venue.image.startsWith('/') ? '' : '/'}${venue.image}`}
+                  src={venue.image}
                   alt="venue"
                   fill
                   className="rounded-t-xl object-cover"

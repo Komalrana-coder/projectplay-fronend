@@ -12,6 +12,7 @@ import EditCourtModal from "@/app/_component/editCourtModel/page";
 type Employee = {
   _id: string;
   name: string;
+  image:string;
 };
 interface CourtModalProps {
   onClose: () => void;
@@ -103,13 +104,16 @@ export default function addVenue() {
     formData.append("courts", JSON.stringify(courts));
 
     if (selectedFile) {
-      formData.append("image", selectedFile); 
+      formData.append("image", selectedFile);
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/venue/addVenue`, {
-      method: "POST",
-      body: formData, 
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/venue/addVenue`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
 
     const data = await res.json();
 
@@ -132,7 +136,7 @@ export default function addVenue() {
   };
 
   useEffect(() => {
-    fetch("${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/getEmployee")
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/getEmployee`)
       .then((res) => res.json())
 
       .then((data: any) => {
@@ -208,20 +212,22 @@ export default function addVenue() {
                       <Image
                         src={URL.createObjectURL(selectedFile)}
                         alt="preview"
+                        width={300}
+                        height={300}
                         className="absolute inset-0 w-full h-full object-cover"
                       />
                     )}
 
                     {/* Upload Button (overlay) */}
                     <div className="absolute bottom-0 left-2 w-full  pb-2">
-                    <button
-                      onClick={() =>
-                        document.getElementById("fileUpload")?.click()
-                      }
-                      className="absolute bottom-2 right-2 bg-white px-3 py-1 rounded-full text-xs shadow"
-                    >
-                      {selectedFile ? "Change Image" : "Upload Image"}
-                    </button>
+                      <button
+                        onClick={() =>
+                          document.getElementById("fileUpload")?.click()
+                        }
+                        className="absolute bottom-2 right-2 bg-white px-3 py-1 rounded-full text-xs shadow"
+                      >
+                        {selectedFile ? "Change Image" : "Upload Image"}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -447,13 +453,17 @@ export default function addVenue() {
                       {employees?.map((emp) => (
                         <div key={emp._id} className=" text-center rounded-xl">
                           <div className="mx-auto  rounded-xl">
-                            <Image
-                              src="/manimage.svg"
-                              alt="court"
-                              width={100}
-                              height={100}
-                              className="rounded-lg"
-                            />
+                            {emp?.image ? (
+                              <img
+                                src={emp?.image}
+                                className="w-8 h-8 rounded-full object-cover"
+                                alt="user"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-xs font-bold">
+                                {emp.name?.charAt(0) || "U"}
+                              </div>
+                            )}
                           </div>
                           <div className="">
                             <span className="text-sm mt-2">{emp.name}</span>

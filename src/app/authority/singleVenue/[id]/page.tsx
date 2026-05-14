@@ -96,7 +96,7 @@ export default function SingleUser() {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:8000/api/venue/getSingleVenue/${id}`)
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/venue/getSingleVenue/${id}`)
         .then((res) => res.json())
         .then((data) => {
           console.log("API RESPONSE:", data);
@@ -265,7 +265,7 @@ console.log("image:", venue?.image);
                         src={
                           selectedFile
                             ? URL.createObjectURL(selectedFile)
-                            : `${process.env.NEXT_PUBLIC_BACKEND_URL}${venue.image.startsWith('/') ? '' : '/'}${venue.image}`
+                            : venue.image
                         }
                         alt="venue"
                         fill

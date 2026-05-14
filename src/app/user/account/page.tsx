@@ -46,7 +46,7 @@ export default function ProfilePage() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await fetch("http://localhost:8000/api/user/profile", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -99,7 +99,7 @@ export default function ProfilePage() {
         formData.append("image", image);
       }
 
-      const res = await fetch("http://localhost:8000/api/user/update-profile", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/update-profile`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -153,8 +153,7 @@ export default function ProfilePage() {
                 image
                   ? URL.createObjectURL(image)
                   : user?.image
-                    ? `http://localhost:8000${user.image}`
-                    : "/profile.jpg"
+                 || "/profile.jpg"
               }
               alt="profile"
               className="w-full h-52 object-cover rounded-xl"

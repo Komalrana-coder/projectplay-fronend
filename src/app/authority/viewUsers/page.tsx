@@ -170,9 +170,9 @@ export default function viewUsers() {
             <div className="bg-blue-600 text-white rounded-2xl p-3 ">
               {/* Profile Image */}
               <div className="flex items-center gap-4">
-                 {selectedUsers?.image ? (
+                 {selectedUsers?.image? (
                 <img
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${selectedUsers?.image}`}
+                  src={selectedUsers?.image}
                   className="w-20 h-20 rounded-full object-cover"
                   alt="user"
                 />
