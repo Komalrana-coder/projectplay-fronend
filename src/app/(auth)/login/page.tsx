@@ -14,6 +14,7 @@ export default function Login() {
 
   
   const handleLogin = async () => {
+    console.log("API URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/login`, {
       method: "POST",
       headers: {
@@ -103,9 +104,7 @@ console.log("res",res)
             <Link href="/register" className="text-sm text-blue-500 hover:underline">
               Register User
             </Link>
-              <Link href="/home/features" className="text-sm text-blue-500 hover:underline">
-              home
-            </Link>
+             
           </div>
 
           {/* Forgot */}
