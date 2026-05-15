@@ -49,29 +49,29 @@ console.log("res",res)
 
    return (
      <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white rounded-2xl  flex flex-wrap w-[1200px]  overflow-hidden">
+     <div className="bg-white rounded-2xl flex flex-col md:flex-row w-[95%] max-w-[1200px] overflow-hidden">
 
         {/* LEFT IMAGE SECTION */}
-        <div className="w-1/2  flex  items-center justify-center p-5">
+        <div className="w-full md:w-1/2 flex items-center justify-center p-5">
           <img
             src="/badmintain.png"
             alt="player"
-            className="max-w-full h-auto "
+            className="max-w-full h-auto w-[250px] md:w-full"
           />
         </div>
 
         {/* RIGHT FORM SECTION */}
-        <div className="w-1/2 p-10 flex flex-col justify-center">
+        <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center">
           
           {/* Logo */}
           <div className=" mb-4">
            <img
            src="/logo.png"
-           className="w-1/2 mx-auto "
+         className="w-40 md:w-1/2 mx-auto"
            />
           </div>
 
-          <h2 className="text-xl font-semibold text-center mb-6">
+         <h2 className="text-lg md:text-xl font-semibold text-center mb-6">
             Welcome Back
           </h2>
 
@@ -98,9 +98,9 @@ console.log("res",res)
               className="w-full mt-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="grid md:grid-cols-2 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
            {/* register */}
-          <div className="text-left mb-6">
+         <div className="text-center md:text-left mb-2 md:mb-6">
             <Link href="/register" className="text-sm text-blue-500 hover:underline">
               Register User
             </Link>
@@ -108,7 +108,7 @@ console.log("res",res)
           </div>
 
           {/* Forgot */}
-          <div className="text-right mb-6">
+          <div className="text-center md:text-right mb-6">
             <Link href="/forgetPassword" className="text-sm text-blue-500 hover:underline">
               Forgot Password?
             </Link>

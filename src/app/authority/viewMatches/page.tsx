@@ -96,190 +96,217 @@ export default function matches() {
   });
 
   return (
-    <div className="min-h-screen w-full  bg:fbfaff md:p-2">
-      <h4 className="w-full flex text-xl md:text-2xl text-blue-900 font-semibold ">
-        Matches
-      </h4>
-      <div className=" flex flex-col  gap-3 mb-4">
-        <div className="w-full flex item-center md:flex-row md:items-center gap-2">
-          <div className="flex-1 gap-2 mt-2">
-            <button
-              onClick={() => setFilterType("upcoming")}
-              className={`text-sm rounded-full px-4 py-2 ${
-                filterType === "upcoming"
-                  ? "bg-blue-900 text-white"
-                  : "bg-white text-gray-900"
-              }`}
-            >
-              Upcoming
-            </button>
-            <button
-              onClick={() => setFilterType("previous")}
-              className={`text-sm rounded-full px-4 py-2 ${
-                filterType === "previous"
-                  ? "bg-blue-900 text-white"
-                  : "bg-white text-gray-900"
-              }`}
-            >
-              Previous
-            </button>
-           <button
-  onClick={() => setFilterType("all")}
-  className={`text-sm rounded-full px-4 py-2 ${
-    filterType === "all"
-      ? "bg-blue-900 text-white"
-      : "bg-white text-gray-900"
-  }`}
->
-  All Matches
-</button>
-          </div>
-          <div className="flex gap-2">
-            {/* <button className="bg-gray-900 text-white text-sm rounded-full px-4 py-2">
-                Game          
-            </button>
-              
-           <button className="bg-gray-900 text-white text-sm rounded-full px-4 py-2">
-             Select a date
-             </button> */}
-          </div>
+  <div className="min-h-screen w-full bg-[#fbfaff] p-2 md:p-4">
+    
+    {/* Heading */}
+    <h4 className="w-full text-xl md:text-2xl text-blue-900 font-semibold mb-4">
+      Matches
+    </h4>
+
+    {/* Filters */}
+    <div className="flex flex-col gap-3 mb-4">
+
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+
+        {/* Buttons */}
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setFilterType("upcoming")}
+            className={`text-sm rounded-full px-4 py-2 transition ${
+              filterType === "upcoming"
+                ? "bg-blue-900 text-white"
+                : "bg-white text-gray-900"
+            }`}
+          >
+            Upcoming
+          </button>
+
+          <button
+            onClick={() => setFilterType("previous")}
+            className={`text-sm rounded-full px-4 py-2 transition ${
+              filterType === "previous"
+                ? "bg-blue-900 text-white"
+                : "bg-white text-gray-900"
+            }`}
+          >
+            Previous
+          </button>
+
+          <button
+            onClick={() => setFilterType("all")}
+            className={`text-sm rounded-full px-4 py-2 transition ${
+              filterType === "all"
+                ? "bg-blue-900 text-white"
+                : "bg-white text-gray-900"
+            }`}
+          >
+            All Matches
+          </button>
         </div>
+
+        {/* Search */}
+        <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="w-full md:w-72 border rounded-lg px-3 py-2 text-sm bg-white"
+        />
       </div>
-      <div className=" flex w-full  gap-6 transition-all duration-300">
-        <div
-          className={`bg-gray-100 rounded-xl p-4 overflow-x-auto shadow transition-all duration-300 ${
-            selectedMatch ? "w-2/3" : "w-full"
-          }`}
-        >
-          <div className="mb-4 flex justify-between items-center">
-            <h4 className="text-xl font-Raleway text-blue-900">
-              Upcoming Matches
-            </h4>
-            <input
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-              className="md:w-1/3  border rounded-lg px-3 bg-white py-2 text-sm"
-            />
-          </div>
+    </div>
 
-          <div className=" flex justify-between w-full text-sm font-Raleway text-gray-600 ">
-            <table className="min-w-full bg-white rounded-xl overflow-hidden shadow">
-              <thead className="bg-gray-200 text-gray-700 text-sm">
-                <tr>
-                  <th className="text-left px-4 py-2">Name of Creater</th>
-                  <th className="text-left px-4 py-2">Names of team </th>
-                  <th className="text-left px-4 py-2">Game</th>
-                  <th className="text-left px-4 py-2">Venue</th>
-                  <th className="text-left px-4 py-2">Date</th>
-                  <th className="text-left px-4 py-2">Action</th>
-                </tr>
-              </thead>
+    {/* Main Layout */}
+    <div className="flex flex-col xl:flex-row gap-6 w-full">
 
-              <tbody className="text-sm">
-                {filteredMatches.length > 0 ? (
-                  filteredMatches.map((match) => (
-                    <tr
-                      key={match._id}
-                      onClick={() => setSelectedMatch(match)}
-                      className="border-b hover:bg-blue-500 cursor-pointer"
-                    >
-                      <td className="px-4 py-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 relative rounded-full overflow-hidden bg-gray-300">
-                            {match.user?.image ? (
-                              <img
-                                src={match.user?.image}
-                                className="w-8 h-8 rounded-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-xs font-bold">
-                                {match.user?.name?.charAt(0) || "U"}
-                              </div>
-                            )}
-                          </div>
+      {/* Left Table */}
+      <div
+        className={`bg-gray-100 rounded-xl p-4 overflow-hidden shadow transition-all duration-300 ${
+          selectedMatch ? "xl:w-2/3 w-full" : "w-full"
+        }`}
+      >
 
-                          <span>{match.user?.name || "Unknown"}</span>
+        <div className="mb-4 flex justify-between items-center">
+          <h4 className="text-lg md:text-xl font-Raleway text-blue-900">
+            Upcoming Matches
+          </h4>
+        </div>
+
+        {/* Table Wrapper */}
+        <div className="overflow-x-auto w-full">
+
+          <table className="min-w-[900px] xl:min-w-full bg-white rounded-xl overflow-hidden shadow">
+
+            <thead className="bg-gray-200 text-gray-700 text-sm">
+              <tr>
+                <th className="text-left px-4 py-3">Name of Creator</th>
+                <th className="text-left px-4 py-3">Names of Team</th>
+                <th className="text-left px-4 py-3">Game</th>
+                <th className="text-left px-4 py-3">Venue</th>
+                <th className="text-left px-4 py-3">Date</th>
+                <th className="text-left px-4 py-3">Action</th>
+              </tr>
+            </thead>
+
+            <tbody className="text-sm">
+              {filteredMatches.length > 0 ? (
+                filteredMatches.map((match) => (
+                  <tr
+                    key={match._id}
+                    onClick={() => setSelectedMatch(match)}
+                    className="border-b hover:bg-blue-50 cursor-pointer transition"
+                  >
+                    {/* Creator */}
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2 min-w-[180px]">
+                        <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
+                          {match.user?.image ? (
+                            <img
+                              src={match.user?.image}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-xs font-bold">
+                              {match.user?.name?.charAt(0) || "U"}
+                            </div>
+                          )}
                         </div>
-                      </td>
-                      <td className="px-4 py-2">
-                        {match.players?.map((p: any) => (
-                          <span key={p.email}>{p.name}, </span>
-                        )) || "Unknown"}
-                      </td>
 
-                      <td className="px-4 py-2">{match.game}</td>
-
-                      <td className="px-4 py-2">
-                        {match.court?.name}({match.venue?.name})
-                      </td>
-
-                      <td className="px-4 py-2">{match.date}</td>
-
-                      <td className="px-4 py-2">
-                        <span
-                          className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                            match.status === "completed"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-600"
-                          }`}
-                        >
-                          {match.status === "completed"
-                            ? "Completed"
-                            : "Pending"}
+                        <span className="truncate">
+                          {match.user?.name || "Unknown"}
                         </span>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={6} className="text-center p-4">
-                      No matches found
+                      </div>
+                    </td>
+
+                    {/* Team */}
+                    <td className="px-4 py-3 min-w-[220px]">
+                      {match.players?.map((p: any) => (
+                        <span key={p.email}>{p.name}, </span>
+                      ))}
+                    </td>
+
+                    {/* Game */}
+                    <td className="px-4 py-3">{match.game}</td>
+
+                    {/* Venue */}
+                    <td className="px-4 py-3 min-w-[180px]">
+                      {match.court?.name} ({match.venue?.name})
+                    </td>
+
+                    {/* Date */}
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      {match.date}
+                    </td>
+
+                    {/* Status */}
+                    <td className="px-4 py-3">
+                      <span
+                        className={`px-3 py-1 text-xs font-semibold rounded-full whitespace-nowrap ${
+                          match.status === "completed"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-600"
+                        }`}
+                      >
+                        {match.status === "completed"
+                          ? "Completed"
+                          : "Pending"}
+                      </span>
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-          {/* pagination */}
-          <div className="flex justify-center gap-2 mt-4 flex-wrap">
-            <button
-              disabled={page === 1}
-              onClick={() => setPage(page - 1)}
-              className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
-            >
-              Prev
-            </button>
-
-            {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i + 1)}
-                className={`px-3 py-1 rounded ${
-                  page === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-
-            <button
-              disabled={page === totalPages}
-              onClick={() => setPage(page + 1)}
-              className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="text-center p-4">
+                    No matches found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
-        {/* right */}
-        {selectedMatch && (
-          <div className="w-full max-w-md mx-auto bg-gray-100 rounded-2xl p-3 shadow-md">
+        {/* Pagination */}
+        <div className="flex justify-center gap-2 mt-4 flex-wrap">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+            className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i + 1)}
+              className={`px-3 py-1 rounded ${
+                page === i + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+            className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      {/* Right Side Card */}
+      {selectedMatch && (
+        <div className="w-full xl:w-[380px] flex-shrink-0">
+
+          <div className="bg-gray-100 rounded-2xl p-3 shadow-md">
+
             {/* Image */}
             <div className="relative w-full h-44 rounded-xl overflow-hidden">
               <Image
@@ -291,35 +318,42 @@ export default function matches() {
             </div>
 
             {/* Content */}
-            <div className="p-3 space-y-3">
-              {/* Title + Duration */}
-              <div className="flex justify-between items-center">
-                <h2 className="text-lg font-semibold"> {selectedMatch.game}</h2>
-                <span className="text-sm text-gray-600">
-                  {" "}
+            <div className="p-3 space-y-4">
+
+              {/* Title */}
+              <div className="flex justify-between items-center gap-2">
+                <h2 className="text-lg font-semibold break-words">
+                  {selectedMatch.game}
+                </h2>
+
+                <span className="text-sm text-gray-600 whitespace-nowrap">
                   {selectedMatch.duration} mins
                 </span>
               </div>
 
-              {/* Location */}
-              <p className="text-sm text-gray-600">
+              {/* Address */}
+              <p className="text-sm text-gray-600 break-words">
                 {selectedMatch.venue?.address}
               </p>
 
-              {/* Date + Time */}
-              <div className="flex justify-between text-sm text-gray-500">
+              {/* Date */}
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 text-sm text-gray-500">
                 <span>{selectedMatch.date}</span>
-                <span> {selectedMatch.timeSlot?.join(", ")}</span>
+
+                <span className="break-words">
+                  {selectedMatch.timeSlot?.join(", ")}
+                </span>
               </div>
 
               {/* Created By */}
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Created By</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">
-                    {selectedMatch.user?.name || "Unknown"}
-                  </span>
-                </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-sm text-gray-600">
+                  Created By
+                </span>
+
+                <span className="text-sm text-right break-words">
+                  {selectedMatch.user?.name || "Unknown"}
+                </span>
               </div>
 
               {/* Players */}
@@ -329,45 +363,28 @@ export default function matches() {
               </div>
 
               {/* Players Section */}
-              <div className="bg-white rounded-xl p-3 text-center shadow-sm">
-                <p className="text-sm mb-3 text-gray-600">
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+
+                <p className="text-sm mb-4 text-center text-gray-600">
                   Players in the game
                 </p>
 
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-3">
-                    <div className="flex justify-between items-center p-3">
-                      {/* Team 1 */}
-                      <div className="flex  gap-9">
-                        {selectedMatch?.players?.slice(0, 2).map((p, i) => (
-                          <div key={i} className="flex flex-col items-center">
-                            {/* Circle Avatar */}
-                            <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
-                              {p.name?.charAt(0).toUpperCase()}
-                            </div>
+                <div className="grid grid-cols-2 gap-6">
 
-                            {/* Full Name */}
-                            <p className="text-xs mt-1 text-center">{p.name}</p>
-                          </div>
-                        ))}
+                  {selectedMatch?.players?.map((p, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col items-center text-center"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                        {p.name?.charAt(0).toUpperCase()}
                       </div>
 
-                      {/* Team 2 */}
-                      <div className="flex m-9 gap-9">
-                        {selectedMatch?.players?.slice(2, 4).map((p, i) => (
-                          <div key={i} className="flex flex-col items-center">
-                            {/* Circle Avatar */}
-                            <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
-                              {p.name?.charAt(0).toUpperCase()}
-                            </div>
-
-                            {/* Full Name */}
-                            <p className="text-xs mt-1 text-center">{p.name}</p>
-                          </div>
-                        ))}
-                      </div>
+                      <p className="text-xs mt-2 break-words">
+                        {p.name}
+                      </p>
                     </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
@@ -377,8 +394,10 @@ export default function matches() {
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
+  
 }

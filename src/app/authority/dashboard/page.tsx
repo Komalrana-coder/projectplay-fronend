@@ -164,12 +164,12 @@ useEffect(() => {
   
   
   return (
-    <div className="w-full min-h-screen bg-white p-6">
+    <div className="w-full min-h-screen bg-white p-3 md:p-6">
       
       
       {/* Top Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-6 ">
-        <h1 className="text-2xl font-semibold text-blue-900 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <h1 className="text-xl md:text-2xl font-semibold text-blue-900 mb-2 md:mb-6">
         Welcome to Barnton Park 
       </h1>
 
@@ -180,10 +180,10 @@ useEffect(() => {
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-12 gap-6">
+     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Schedule */}
-     <div className="col-span-3 bg-gray-100 rounded-2xl p-4">
+     <div className="lg:col-span-3 bg-gray-100 rounded-2xl p-4">
   <h2 className="font-semibold text-blue-900 mb-4">
     Today’s Schedule
   </h2>
@@ -221,7 +221,7 @@ useEffect(() => {
           </p>
 
           {/* Game */}
-          <div className=" flex display-flex">
+         <div className="flex flex-wrap items-center">
             <p className="text-sm opacity-80">
             {match.game} Match
           </p>
@@ -251,7 +251,7 @@ useEffect(() => {
 </div>
 
         {/* Middle Section */}
-        <div className="col-span-6 space-y-6">
+       <div className="lg:col-span-3 space-y-6 min-w-0">
           
           {/* Recent Bookings */}
           <div className="bg-gray-100 rounded-2xl p-4">
@@ -259,7 +259,8 @@ useEffect(() => {
               Recent Bookings
             </h2>
 
-            <table className="w-full text-sm ">
+            <div className="overflow-x-auto">
+<table className="w-full text-sm min-w-[500px]">
               <thead className="text-gray-500">
                 <tr>
                   <th className="text-left">Name</th>
@@ -292,26 +293,33 @@ useEffect(() => {
   )}
 </tbody>
             </table>
+            </div>
           </div>
 
           {/* Stats Graph Placeholder */}
 
 
 
-  <div className="w-full h-[100px]">
+  <div className="w-full h-[350px] md:h-[100px]">
     <StatsChart />
   </div>
 
         </div>
 
         {/* Right Section */}
-        <div className="col-span-3 space-y-6">
-          
+       <div className="lg:col-span-3 space-y-6">
           {/* Ongoing Matches */}
-          <div className="bg-gray-900 text-white rounded-2xl p-4">
+         <div className="bg-gray-900 text-white rounded-2xl p-4 h-auto overflow-hidden">
             <h2 className="mb-4">Ongoing Matches</h2>
-           <div>Padel Matches: {totalPadelMatches}</div>
-          <div> Pickleball Matches: {totalpickleballMatches}</div>
+          <div className="space-y-2 break-words">
+  <div className="text-sm md:text-base">
+    Padel Matches: {totalPadelMatches}
+  </div>
+
+  <div className="text-sm md:text-base">
+    Pickleball Matches: {totalpickleballMatches}
+  </div>
+</div>
           </div>
 
           {/* Loyalty Points
@@ -339,7 +347,7 @@ function StatCard({ title, value }:StatCardProps) {
   return (
     <div className="bg-gray-100 rounded-2xl p-4">
       <p className="text-blue-900 text-sm">{title}</p>
-      <h2 className="text-xl text-gray-700 font-bold">{value}</h2>
+     <h2 className="text-lg md:text-xl text-gray-700 font-bold break-words">{value}</h2>
     </div>
   );
 }

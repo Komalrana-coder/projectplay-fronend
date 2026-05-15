@@ -123,176 +123,207 @@ export default function ProfilePage() {
     }
   };
   return (
-    <div className="min-h-screen bg-white p-6">
-        <div className="w-full flex item-center md:flex-row md:items-center gap-2">
+  <div className="min-h-screen bg-white p-3 md:p-6">
 
-         <div className="flex gap-2 py-4 ">
-         <div className=" text-blue-900 font-semibold text-2xl  px-4">
-           Profile
-           </div>
-            
-            <div className="text-blue-900 font-semibold text-2xl ml-[360]">
-          Transactions
-           </div>
-            
+  {/* Main Grid */}
+  <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
-           
-          </div>
-        </div>
-        
-      <div className="grid grid-cols-12 gap-6">
+    {/* LEFT SIDE - PROFILE */}
+    <div className="xl:col-span-4 bg-gray-100 rounded-2xl shadow p-4 md:p-5">
 
-        
-        {/* LEFT SIDE */}
-        <div className="col-span-4 bg-gray-100 rounded-2xl shadow p-5">
+      {/* Heading */}
+      <h2 className="text-blue-900 font-semibold text-2xl mb-5">
+        Profile
+      </h2>
 
+      {/* Profile Image */}
+      <div className="relative">
 
-          <div className="relative">
-            <img
-              src={
-                image
-                  ? URL.createObjectURL(image)
-                  : user?.image
-                 || "/profile.jpg"
-              }
-              alt="profile"
-              className="w-full h-52 object-cover rounded-xl"
-            />
+        <img
+          src={
+            image
+              ? URL.createObjectURL(image)
+              : user?.image || "/profile.jpg"
+          }
+          alt="profile"
+          className="w-full h-52 md:h-64 object-cover rounded-xl"
+        />
 
-            {/* Hidden file input */}
-            <input
-              type="file"
-              accept="image/*"
-              id="profileUpload"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) setImage(file);
-              }}
-            />
+        <input
+          type="file"
+          accept="image/*"
+          id="profileUpload"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) setImage(file);
+          }}
+        />
 
-            {/* Button */}
-            <button
-              type="button"
-              onClick={() => document.getElementById("profileUpload")?.click()}
-              className="absolute bottom-3 right-3 bg-white px-3 py-1 rounded-full text-sm shadow"
-            >
-              ✏️ Change Image
-            </button>
-          </div>
+        <button
+          type="button"
+          onClick={() =>
+            document.getElementById("profileUpload")?.click()
+          }
+          className="absolute bottom-3 right-3 bg-white px-3 py-1 rounded-full text-sm shadow"
+        >
+          ✏️ Change Image
+        </button>
+      </div>
 
-          <div className="mt-5 space-y-4">
-            <div>
-              <label className="text-sm text-gray-500">Name</label>
-              <input
-                className="w-full mt-1 p-2 border rounded-full bg-white"
-                value={user?.name || ""}
-                onChange={(e) =>
-                  setUser((prev) =>
-                    prev ? { ...prev, name: e.target.value } : prev,
-                  )
-                }
-              />
-            </div>
+      {/* Form */}
+      <div className="mt-5 space-y-4">
 
-            <div>
-              <label className="text-sm text-gray-500">Phone</label>
-              <input
-                className="w-full mt-1 p-2 border rounded-full bg-white"
-                value={user?.phoneNumber || ""}
-                onChange={(e) =>
-                  setUser((prev) =>
-                    prev ? { ...prev, phoneNumber: e.target.value } : prev,
-                  )
-                }
-              />
-            </div>
+        <div>
+          <label className="text-sm text-gray-500">
+            Name
+          </label>
 
-            <div>
-              <label className="text-sm text-gray-500">Email</label>
-              <input
-                className="w-full mt-1 p-2 border rounded-full bg-white"
-                value={user?.email || ""}
-                onChange={(e) =>
-                  setUser((prev) =>
-                    prev ? { ...prev, email: e.target.value } : prev,
-                  )
-                }
-              />
-            </div>
-
-            <button
-              onClick={handleUpdate}
-              className="w-full bg-blue-900 text-white py-2 rounded-full mt-3"
-            >
-              Save
-            </button>
-          </div>
+          <input
+            className="w-full mt-1 p-3 border rounded-full bg-white text-sm"
+            value={user?.name || ""}
+            onChange={(e) =>
+              setUser((prev) =>
+                prev
+                  ? { ...prev, name: e.target.value }
+                  : prev
+              )
+            }
+          />
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="col-span-8 bg-gray-100 rounded-2xl shadow p-5">
-         
+        <div>
+          <label className="text-sm text-gray-500">
+            Phone
+          </label>
 
-          <div className="overflow-hidden rounded-xl border">
-            <table className="w-full text-sm bg-white">
-              <thead className="bg-gray-100 text-gray-600">
-                <tr>
-                  <th className="p-3 text-left">Sr No</th>
-                  <th className="p-3 text-left">Venue</th>
-                  <th className="p-3 text-left">Court</th>
-                  <th className="p-3 text-left">Date</th>
-                  <th className="p-3 text-left">Time</th>
-                  <th className="p-3 text-center">Payment</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {matches.length > 0 ? (
-                  matches.map((item, i) => (
-                    <tr
-                      key={item._id || i}
-                      onClick={() => handleSelect(i)}
-                      className={`cursor-pointer ${
-                        selectedId === i
-                          ? "bg-blue-600 text-white"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <td className="p-3">{i + 1}</td>
-                      <td className="p-3">{item.venue?.name || "N/A"}</td>
-                      <td className="p-3">{item.court?.name || "N/A"}</td>
-                      <td className="p-3">{item.date || "N/A"}</td>
-                      <td className="p-3">
-                        {item.timeSlot?.join(", ") || "N/A"}
-                      </td>
-                      <td className="px-4 py-2">
-                        <span
-                          className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                            item.status === "completed"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-600"
-                          }`}
-                        >
-                          {item.status === "completed"
-                            ? "Completed"
-                            : "Pending"}
-                        </span>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={6} className="text-center p-4 text-gray-500">
-                      No bookings found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+          <input
+            className="w-full mt-1 p-3 border rounded-full bg-white text-sm"
+            value={user?.phoneNumber || ""}
+            onChange={(e) =>
+              setUser((prev) =>
+                prev
+                  ? {
+                      ...prev,
+                      phoneNumber: e.target.value,
+                    }
+                  : prev
+              )
+            }
+          />
         </div>
+
+        <div>
+          <label className="text-sm text-gray-500">
+            Email
+          </label>
+
+          <input
+            className="w-full mt-1 p-3 border rounded-full bg-white text-sm"
+            value={user?.email || ""}
+            onChange={(e) =>
+              setUser((prev) =>
+                prev
+                  ? { ...prev, email: e.target.value }
+                  : prev
+              )
+            }
+          />
+        </div>
+
+        <button
+          onClick={handleUpdate}
+          className="w-full bg-blue-900 text-white py-3 rounded-full mt-3"
+        >
+          Save
+        </button>
       </div>
     </div>
+
+    {/* RIGHT SIDE - TRANSACTIONS */}
+    <div className="xl:col-span-8 bg-gray-100 rounded-2xl shadow p-4 md:p-5 overflow-hidden">
+
+      {/* Heading */}
+      <h2 className="text-blue-900 font-semibold text-2xl mb-5">
+        Transactions
+      </h2>
+
+      {/* Table */}
+      <div className="overflow-x-auto rounded-xl border">
+
+        <table className="min-w-[750px] w-full text-sm bg-white">
+
+          <thead className="bg-gray-100 text-gray-600">
+            <tr>
+              <th className="p-3 text-left">Sr No</th>
+              <th className="p-3 text-left">Venue</th>
+              <th className="p-3 text-left">Court</th>
+              <th className="p-3 text-left">Date</th>
+              <th className="p-3 text-left">Time</th>
+              <th className="p-3 text-center">Payment</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {matches.length > 0 ? (
+              matches.map((item, i) => (
+                <tr
+                  key={item._id || i}
+                  onClick={() => handleSelect(i)}
+                  className={`cursor-pointer transition ${
+                    selectedId === i
+                      ? "bg-blue-600 text-white"
+                      : "hover:bg-gray-50"
+                  }`}
+                >
+                  <td className="p-3">{i + 1}</td>
+
+                  <td className="p-3">
+                    {item.venue?.name || "N/A"}
+                  </td>
+
+                  <td className="p-3">
+                    {item.court?.name || "N/A"}
+                  </td>
+
+                  <td className="p-3">
+                    {item.date || "N/A"}
+                  </td>
+
+                  <td className="p-3 min-w-[180px]">
+                    {item.timeSlot?.join(", ") || "N/A"}
+                  </td>
+
+                  <td className="px-4 py-3 text-center">
+                    <span
+                      className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                        item.status === "completed"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-600"
+                      }`}
+                    >
+                      {item.status === "completed"
+                        ? "Completed"
+                        : "Pending"}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={6}
+                  className="text-center p-4 text-gray-500"
+                >
+                  No bookings found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
   );
 }
