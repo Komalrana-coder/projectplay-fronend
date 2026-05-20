@@ -8,13 +8,19 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen ">
-      {/* Main Content */}
+    <div className="flex min-h-screen">
+      
       <div className="flex-1">
-        <Navbar/>
-        <div className="p-4">
-          {children} 
+        
+        {/* Center Navbar */}
+        <div className="flex justify-center w-full">
+          <Navbar />
         </div>
+
+        <div className="p-4">
+          {children}
+        </div>
+
       </div>
     </div>
   );

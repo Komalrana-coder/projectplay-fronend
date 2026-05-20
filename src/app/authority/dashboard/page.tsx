@@ -163,191 +163,397 @@ useEffect(() => {
 
   
   
-  return (
-    <div className="w-full min-h-screen bg-white p-3 md:p-6">
+//   return (
+//     <div className="w-full min-h-screen bg-white p-3 md:p-6">
       
       
-      {/* Top Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <h1 className="text-xl md:text-2xl font-semibold text-blue-900 mb-2 md:mb-6">
-        Welcome to Barnton Park 
-      </h1>
+//       {/* Top Stats */}
+//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+//         <h1 className="text-xl md:text-2xl font-semibold text-blue-900 mb-2 md:mb-6">
+//         Welcome to Barnton Park 
+//       </h1>
 
-        <StatCard title="Total matches this month" value={totalMonthlyMatches} />
-        <StatCard title="Pickleball matches this month" value={totalMonthlypickleballMatches} />
-        <StatCard title="Padel matches this month" value={totalMonthlyPadelMatches} />
+//         <StatCard title="Total matches this month" value={totalMonthlyMatches} />
+//         <StatCard title="Pickleball matches this month" value={totalMonthlypickleballMatches} />
+//         <StatCard title="Padel matches this month" value={totalMonthlyPadelMatches} />
         
-      </div>
+//       </div>
 
-      {/* Main Grid */}
-     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+//       {/* Main Grid */}
+//      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Left Schedule */}
-     <div className="lg:col-span-3 bg-gray-100 rounded-2xl p-4">
-  <h2 className="font-semibold text-blue-900 mb-4">
-    Today’s Schedule
-  </h2>
+//         {/* Left Schedule */}
+//      <div className="lg:col-span-3 bg-gray-100 rounded-2xl p-4">
+//   <h2 className="font-semibold text-blue-900 mb-4">
+//     Today’s Schedule
+//   </h2>
 
-  {/* Today's Date */}
-  <div className="flex gap-2 mb-4 overflow-x-auto">
-    <div className="px-4 py-2 rounded-md text-center bg-blue-900 text-white">
-      <div className="text-xs">
-        {new Date().toLocaleDateString("en-US", {
-          weekday: "short",
-        })}
-      </div>
+//   {/* Today's Date */}
+//   <div className="flex gap-2 mb-4 overflow-x-auto">
+//     <div className="px-4 py-2 rounded-md text-center bg-blue-900 text-white">
+//       <div className="text-xs">
+//         {new Date().toLocaleDateString("en-US", {
+//           weekday: "short",
+//         })}
+//       </div>
 
-      <div className="font-semibold">
-        {new Date().getDate()}
-      </div>
-    </div>
-  </div>
+//       <div className="font-semibold">
+//         {new Date().getDate()}
+//       </div>
+//     </div>
+//   </div>
 
-  {/* Today Schedule */}
-  <div>
-    {todayBookings.length > 0 ? (
-      todayBookings.map((match: any, i: number) => (
-        <div
-          key={match._id}
-          className={`p-4 rounded-xl mb-3 ${
-            i === 0
-              ? "bg-gray-900 text-white font-raleway"
-              : "bg-gray-100 text-black font-raleway"
-          }`}
-        >
-          {/* Name */}
-          <p className="font-semibold text-lg">
-            {match.user?.name}
-          </p>
+//   {/* Today Schedule */}
+//   <div>
+//     {todayBookings.length > 0 ? (
+//       todayBookings.map((match: any, i: number) => (
+//         <div
+//           key={match._id}
+//           className={`p-4 rounded-xl mb-3 ${
+//             i === 0
+//               ? "bg-gray-900 text-white font-raleway"
+//               : "bg-gray-100 text-black font-raleway"
+//           }`}
+//         >
+//           {/* Name */}
+//           <p className="font-semibold text-lg">
+//             {match.user?.name}
+//           </p>
 
-          {/* Game */}
-         <div className="flex flex-wrap items-center">
-            <p className="text-sm opacity-80">
-            {match.game} Match
-          </p>
-          <span className="p-2"></span>
-            <p className="text-xs opacity-70">
-             {match.duration} mins
-          </p>
-          </div>
+//           {/* Game */}
+//          <div className="flex flex-wrap items-center">
+//             <p className="text-sm opacity-80">
+//             {match.game} Match
+//           </p>
+//           <span className="p-2"></span>
+//             <p className="text-xs opacity-70">
+//              {match.duration} mins
+//           </p>
+//           </div>
           
-          {/* Time */}
-          <p className="text-xs opacity-70 mt-1">
-            Time: {match.timeSlot?.join(", ")}
-          </p>
+//           {/* Time */}
+//           <p className="text-xs opacity-70 mt-1">
+//             Time: {match.timeSlot?.join(", ")}
+//           </p>
 
          
           
 
           
-        </div>
-      ))
-    ) : (
-      <div className="bg-gray-100 rounded-xl p-4 text-center text-gray-500">
-        No bookings scheduled for today
-      </div>
-    )}
-  </div>
-</div>
+//         </div>
+//       ))
+//     ) : (
+//       <div className="bg-gray-100 rounded-xl p-4 text-center text-gray-500">
+//         No bookings scheduled for today
+//       </div>
+//     )}
+//   </div>
+// </div>
 
-        {/* Middle Section */}
-       <div className="lg:col-span-3 space-y-6 min-w-0">
+//         {/* Middle Section */}
+//        <div className="lg:col-span-3 space-y-6 min-w-0">
           
-          {/* Recent Bookings */}
-          <div className="bg-gray-100 rounded-2xl p-4">
-            <h2 className="font-semibold text-blue-900 mb-4">
-              Recent Bookings
-            </h2>
+//           {/* Recent Bookings */}
+//           <div className="bg-gray-100 rounded-2xl p-4">
+//             <h2 className="font-semibold text-blue-900 mb-4">
+//               Recent Bookings
+//             </h2>
 
-            <div className="overflow-x-auto">
-<table className="w-full text-sm min-w-[500px]">
-              <thead className="text-gray-500">
-                <tr>
-                  <th className="text-left">Name</th>
-                  <th>Game</th>
-                  <th>City</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-            <tbody>
-  {matches.length > 0 ? (
-    matches.map((match) => (
-      <tr key={match._id} className="border-t">
-        <td className="py-2 ">{match.user?.name}</td>
+//             <div className="overflow-x-auto">
+// <table className="w-full text-sm min-w-[500px]">
+//               <thead className="text-gray-500">
+//                 <tr>
+//                   <th className="text-left">Name</th>
+//                   <th>Game</th>
+//                   <th>City</th>
+//                   <th>Date</th>
+//                 </tr>
+//               </thead>
+//             <tbody>
+//   {matches.length > 0 ? (
+//     matches.map((match) => (
+//       <tr key={match._id} className="border-t">
+//         <td className="py-2 ">{match.user?.name}</td>
 
-        <td className="px-4 py-2">{match.game}</td>
+//         <td className="px-4 py-2">{match.game}</td>
 
-        <td className="px-4 py-2">
-          {match.venue?.name}
-        </td>
+//         <td className="px-4 py-2">
+//           {match.venue?.name}
+//         </td>
 
-        <td className="px-4 py-2">{match.date}</td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan={4} className="text-center py-4">
-        No matches found
-      </td>
-    </tr>
-  )}
-</tbody>
-            </table>
+//         <td className="px-4 py-2">{match.date}</td>
+//       </tr>
+//     ))
+//   ) : (
+//     <tr>
+//       <td colSpan={4} className="text-center py-4">
+//         No matches found
+//       </td>
+//     </tr>
+//   )}
+// </tbody>
+//             </table>
+//             </div>
+//           </div>
+
+//           {/* Stats Graph Placeholder */}
+
+
+
+//   <div className="w-full h-[350px] md:h-[100px]">
+//     <StatsChart />
+//   </div>
+
+//         </div>
+
+//         {/* Right Section */}
+//        <div className="lg:col-span-3 space-y-6">
+//           {/* Ongoing Matches */}
+//          <div className="bg-gray-900 text-white rounded-2xl p-4 h-auto overflow-hidden">
+//             <h2 className="mb-4">Ongoing Matches</h2>
+//           <div className="space-y-2 break-words">
+//   <div className="text-sm md:text-base">
+//     Padel Matches: {totalPadelMatches}
+//   </div>
+
+//   <div className="text-sm md:text-base">
+//     Pickleball Matches: {totalpickleballMatches}
+//   </div>
+// </div>
+//           </div>
+
+//           {/* Loyalty Points
+//           <div className="bg-gray-900 text-white rounded-2xl p-4 text-center">
+//             <h3 className="mb-2">Manage Loyalty Points</h3>
+//             <button className="bg-white text-black px-4 py-2 rounded-full mt-2">
+//               Manage Points
+//             </button>
+//           </div> */}
+
+//           {/* Booking Composition */}
+//           <div className="bg-gray-100 rounded-2xl p-4">
+//             <h3 className="mb-2">Game Booking Composition</h3>
+//             <p className="text-blue-600">66% Padel</p>
+//             <p className="text-gray-500">34% Pickleball</p>
+//           </div>
+//         </div>
+
+//       </div>
+//     </div>
+//   );
+// }
+
+// function StatCard({ title, value }:StatCardProps) {
+//   return (
+//     <div className="bg-gray-100 rounded-2xl p-4">
+//       <p className="text-blue-900 text-sm">{title}</p>
+//      <h2 className="text-lg md:text-xl text-gray-700 font-bold break-words">{value}</h2>
+//     </div>
+//   );
+// }
+
+return (
+  <div className="w-full min-h-screen bg-white p-4 md:p-6">
+    
+    {/* Top Stats */}
+    <h1 className="text-2xl font-semibold text-blue-900 mb-6">
+      Welcome to Barnton Park
+    </h1>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <StatCard
+        title="Total matches this month"
+        value={totalMonthlyMatches}
+      />
+
+      <StatCard
+        title="Pickleball matches this month"
+        value={totalMonthlypickleballMatches}
+      />
+
+      <StatCard
+        title="Padel matches this month"
+        value={totalMonthlyPadelMatches}
+      />
+    </div>
+
+    {/* Main Grid */}
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      {/* Left Schedule */}
+      <div className="lg:col-span-3 bg-gray-100 rounded-2xl p-4">
+        <h2 className="font-semibold text-blue-900 mb-4">
+          Today’s Schedule
+        </h2>
+
+        {/* Today's Date */}
+        <div className="flex gap-2 mb-4 overflow-x-auto">
+          <div className="px-4 py-2 rounded-md text-center bg-blue-900 text-white">
+            <div className="text-xs">
+              {new Date().toLocaleDateString("en-US", {
+                weekday: "short",
+              })}
+            </div>
+
+            <div className="font-semibold">
+              {new Date().getDate()}
             </div>
           </div>
-
-          {/* Stats Graph Placeholder */}
-
-
-
-  <div className="w-full h-[350px] md:h-[100px]">
-    <StatsChart />
-  </div>
-
         </div>
 
-        {/* Right Section */}
-       <div className="lg:col-span-3 space-y-6">
-          {/* Ongoing Matches */}
-         <div className="bg-gray-900 text-white rounded-2xl p-4 h-auto overflow-hidden">
-            <h2 className="mb-4">Ongoing Matches</h2>
-          <div className="space-y-2 break-words">
-  <div className="text-sm md:text-base">
-    Padel Matches: {totalPadelMatches}
-  </div>
+        {/* Today Schedule */}
+        <div>
+          {todayBookings.length > 0 ? (
+            todayBookings.map((match: any, i: number) => (
+              <div
+                key={match._id}
+                className={`p-4 rounded-xl mb-3 ${
+                  i === 0
+                    ? "bg-gray-900 text-white font-raleway"
+                    : "bg-white text-black font-raleway"
+                }`}
+              >
+                {/* Name */}
+                <p className="font-semibold text-lg">
+                  {match.user?.name}
+                </p>
 
-  <div className="text-sm md:text-base">
-    Pickleball Matches: {totalpickleballMatches}
-  </div>
-</div>
-          </div>
+                {/* Game */}
+                <div className="flex items-center">
+                  <p className="text-sm opacity-80">
+                    {match.game} Match
+                  </p>
 
-          {/* Loyalty Points
-          <div className="bg-gray-900 text-white rounded-2xl p-4 text-center">
-            <h3 className="mb-2">Manage Loyalty Points</h3>
-            <button className="bg-white text-black px-4 py-2 rounded-full mt-2">
-              Manage Points
-            </button>
-          </div> */}
+                  <span className="px-2"></span>
 
-          {/* Booking Composition */}
-          <div className="bg-gray-100 rounded-2xl p-4">
-            <h3 className="mb-2">Game Booking Composition</h3>
-            <p className="text-blue-600">66% Padel</p>
-            <p className="text-gray-500">34% Pickleball</p>
+                  <p className="text-xs opacity-70">
+                    {match.duration} mins
+                  </p>
+                </div>
+
+                {/* Time */}
+                <p className="text-xs opacity-70 mt-1">
+                  Time: {match.timeSlot?.join(", ")}
+                </p>
+              </div>
+            ))
+          ) : (
+            <div className="bg-white rounded-xl p-4 text-center text-gray-500">
+              No bookings scheduled for today
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Middle Section */}
+      <div className="lg:col-span-6 space-y-6">
+        
+        {/* Recent Bookings */}
+        <div className="bg-gray-100 rounded-2xl p-4 overflow-x-auto">
+          <h2 className="font-semibold text-blue-900 mb-4">
+            Recent Bookings
+          </h2>
+
+          <table className="w-full text-sm min-w-[500px]">
+            <thead className="text-gray-500">
+              <tr>
+                <th className="text-left py-2">Name</th>
+                <th className="text-left py-2">Game</th>
+                <th className="text-left py-2">City</th>
+                <th className="text-left py-2">Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {matches.length > 0 ? (
+                matches.map((match) => (
+                  <tr key={match._id} className="border-t">
+                    <td className="py-3">
+                      {match.user?.name}
+                    </td>
+
+                    <td className="py-3">
+                      {match.game}
+                    </td>
+
+                    <td className="py-3">
+                      {match.venue?.name}
+                    </td>
+
+                    <td className="py-3">
+                      {match.date}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="text-center py-4"
+                  >
+                    No matches found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Stats Graph */}
+        <div className="w-full h-[250px] bg-gray-100 rounded-2xl p-4">
+          <StatsChart />
+        </div>
+      </div>
+
+      {/* Right Section */}
+      <div className="lg:col-span-3 space-y-6">
+        
+        {/* Ongoing Matches */}
+        <div className="bg-gray-900 text-white rounded-2xl p-4">
+          <h2 className="mb-4 font-semibold text-lg">
+            Ongoing Matches
+          </h2>
+
+          <div className="space-y-2">
+            <div>
+              Padel Matches: {totalPadelMatches}
+            </div>
+
+            <div>
+              Pickleball Matches: {totalpickleballMatches}
+            </div>
           </div>
         </div>
 
+        {/* Booking Composition */}
+        <div className="bg-gray-100 rounded-2xl p-4">
+          <h3 className="mb-3 font-semibold text-blue-900">
+            Game Booking Composition
+          </h3>
+
+          <p className="text-blue-600">
+            66% Padel
+          </p>
+
+          <p className="text-gray-500">
+            34% Pickleball
+          </p>
+        </div>
       </div>
     </div>
-  );
-}
+  </div>
+);
 
-function StatCard({ title, value }:StatCardProps) {
+function StatCard({ title, value }: StatCardProps) {
   return (
-    <div className="bg-gray-100 rounded-2xl p-4">
-      <p className="text-blue-900 text-sm">{title}</p>
-     <h2 className="text-lg md:text-xl text-gray-700 font-bold break-words">{value}</h2>
+    <div className="bg-gray-100 rounded-2xl p-4 shadow-sm">
+      <p className="text-blue-900 text-sm">
+        {title}
+      </p>
+
+      <h2 className="text-2xl text-gray-700 font-bold mt-2">
+        {value}
+      </h2>
     </div>
   );
-}
+}}

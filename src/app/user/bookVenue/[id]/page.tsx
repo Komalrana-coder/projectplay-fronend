@@ -14,6 +14,8 @@ type Player = {
   name: string;
 };
 
+
+
 export default function BookingPage() {
   const router = useRouter();
   const [game, setGame] = useState<"padel" | "pickleball">("padel");
@@ -277,7 +279,7 @@ export default function BookingPage() {
           </div>
         </div>
 
-        {/* Time Slots */}
+        {/* Time Slots
         <div className="bg-white ">
           <div className="grid md:grid-cols-2 gap-6">
             {[1, 2].map((court) => (
@@ -306,7 +308,39 @@ export default function BookingPage() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
+
+        {/* Time Slots */}
+<div className="bg-white">
+  <div className="bg-gray-100 rounded-2xl p-5">
+    <h3 className="text-gray-700 font-semibold mb-4">
+      Select Time Slot
+    </h3>
+
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+      {timeSlots.map((time) => {
+        const isSelected = timeSlot.includes(time);
+
+        return (
+          <button
+            key={time}
+            onClick={() => toggleSlot(time)}
+            className={`rounded-lg py-3 text-center transition ${
+              isSelected
+                ? "bg-orange-500 text-white"
+                : "bg-white text-gray-600"
+            }`}
+          >
+            <div className="font-medium">{time}</div>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+
+        
 
         {/* Game Type */}
         <div className="bg-white">
